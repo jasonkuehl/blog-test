@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Networking on Jason Kuehl Blog</title><link>https://blog.jasonkuehl.com/categories/networking/</link><description>Recent content in Networking on Jason Kuehl Blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sun, 06 Mar 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.jasonkuehl.com/categories/networking/index.xml" rel="self" type="application/rss+xml"/><item><title>Dell N Series – No Free IP Address To Offer In Pool</title><link>https://blog.jasonkuehl.com/p/dell-n-series-1/</link><pubDate>Sun, 06 Mar 2022 00:00:00 +0000</pubDate><guid>https://blog.jasonkuehl.com/p/dell-n-series-1/</guid><description>&lt;img src="https://blog.jasonkuehl.com/p/dell-n-series-1/cover.jpg" alt="Featured image of post Dell N Series – No Free IP Address To Offer In Pool" />&lt;p>Dell N Series – No Free IP Address To Offer In Pool
+Blog Networking
+October 13, 2020 jasonkuehl&lt;/p>
+&lt;p>At this site we installed a new Dell N Series core replacing a bunch of old junk. As I’m doing the new build I moved all the DHCP requests to the core and away from windows which took care of all the DHCP requests. This was on a off day with no one around (Duh replacing the core) and I was not really worried. After about 30 minutes my console is filling up with the below messages.&lt;/p>
+&lt;p>Note: Yes it’s VLAN1 it predates me and is waaay too messy to remove in a weekend.&lt;/p>
+&lt;p>&lt;code>Error “No Free IP Address To Offer in pool VLAN1”&lt;/code>&lt;/p>
+&lt;p>&lt;em>Start freaking out&lt;/em> Did I fill the pool already? How can that be?&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">show ip dhcp binding
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>Everything looks fine, and the pool is not even close to full… To the Logs!&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">show logs
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>I’ve seen this before in Cisco where a device holds onto a DHCP address. You need to track down the MAC and give the device a reboot. After the reboot (of the device) these errors should go away.&lt;/p>
+&lt;p>Full Image&lt;/p></description></item><item><title>Google Geo Location Issues</title><link>https://blog.jasonkuehl.com/p/google-geo-location-issues/</link><pubDate>Sun, 06 Mar 2022 00:00:00 +0000</pubDate><guid>https://blog.jasonkuehl.com/p/google-geo-location-issues/</guid><description>&lt;img src="https://blog.jasonkuehl.com/p/google-geo-location-issues/cover.jpg" alt="Featured image of post Google Geo Location Issues" />&lt;p>Google runs its database like ARIN on who owns what IP and sets a location. If you look up an IP owner in ARIN, you’ll see the name, address, and IP location. Google does this as well, but it’s private.&lt;/p>
+&lt;p>This becomes important when your Google page suddenly shows Belarus. You need to contact Google or ARIN. You’ll know it’s a Google issue if you don’t see this issue in Bing or DuckDuckGo.&lt;/p>
+&lt;p>If you’re reading this, your Google location now shows a different country or area from your owned IP location in ARIN. Google has changed this in their database. The process to fix this will take 1–2 months. You need to open a ticket with &lt;a class="link" href="mailto:noc@google.com" >noc@google.com&lt;/a>&lt;/p>
+&lt;p>If you’re an ISP, you can use &lt;a class="link" href="https://isp.google.com/" target="_blank" rel="noopener"
+>https://isp.google.com/&lt;/a>. Anyone who runs a VPN for a company website or other service must open a ticket with the NOC. If you can get an ISP account, you can control IP address locations.&lt;/p>
+&lt;p>I got this information from the &lt;a class="link" href="mailto:nanog@nanog.org" >nanog@nanog.org&lt;/a> mailing list. I contacted a Google Ops Engineer on this list, who told me to use &lt;a class="link" href="mailto:noc@google.com" >noc@google.com&lt;/a> for all Google-related issues. They were able to send my issue over to the correct department. For all my funky-related network issues, I posted them to this list to get help from other engineers.&lt;/p>
+&lt;p>See the below response from Google.&lt;/p>
+&lt;p>At the end of the day, a bug in the service saw traffic from Belarus, and Google started to assume this was the main location where that IP belonged. After talking with other engineers from other companies, this is “normal” when you start to branch out in hiring from other countries. However, it would never be an issue if Google just used the ARIN database like everyone else.&lt;/p></description></item></channel></rss>

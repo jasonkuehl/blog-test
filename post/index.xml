@@ -1,0 +1,619 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Jason Kuehl Blog</title><link>https://blog.jasonkuehl.com/post/</link><description>Recent content in Posts on Jason Kuehl Blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Wed, 31 Jan 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.jasonkuehl.com/post/index.xml" rel="self" type="application/rss+xml"/><item><title>Xfinity Blocking URLs For No Reason</title><link>https://blog.jasonkuehl.com/p/xfinity-blocking-urls-for-no-reason/</link><pubDate>Wed, 31 Jan 2024 00:00:00 +0000</pubDate><guid>https://blog.jasonkuehl.com/p/xfinity-blocking-urls-for-no-reason/</guid><description>&lt;img src="https://blog.jasonkuehl.com/p/xfinity-blocking-urls-for-no-reason/cover.jpg" alt="Featured image of post Xfinity Blocking URLs For No Reason" />&lt;p>There have been a few instances in which Xfinity has blocked my company’s VPN URL. Xfinity needs a better process for unblocking that URL, but that is a different rant. You can not open tickets with them if you’re not an Xfinity customer. This makes no sense, and it’s infuriating. Xfinity will not tell us why or how the block was triggered. We were told on the 1st and 2nd time it happened it was “a known issue,” and it was resolved, but we’ve had other issues.&lt;/p>
+&lt;p>Suppose you find yourself googling and end up here. Here is what we did to fix this and what to look for.&lt;/p>
+&lt;p>It all started when some users couldn’t connect to the VPN. After some troubleshooting, we discovered that it was only affecting Xfinity users. Upon further investigation, we found that all Xfinity users had Xfinity advanced security enabled, blocking our VPN URL under the “blocked” tab. Even when a user removed the block, it would reappear in the block list after an hour. We had to request users to remove the block and disable Xfinity advanced security entirely to resolve the issue.&lt;/p>
+&lt;p>The next time we happened, Xfinity pushed an update that re-enabled Xfinity’s advanced security; however, users didn’t see our URL blocked. Xfinity told our users it was blocked. You’ll need to use this site &lt;a class="link" href="https://spa.xfinity.com/advanced-security?faq=advanced-security" target="_blank" rel="noopener"
+>https://spa.xfinity.com/advanced-security?faq=advanced-security&lt;/a> to request the URL block is removed. It says 3-4 business days. It won’t matter how much you call, complain, or reps you talk to. The process is terrible, and Xfinity will not allow you to speak with an engineer. You’re stuck with tech support Tier 1 and 2 only. Who can only update the tickets on the SPA side.&lt;/p>
+&lt;p>Xfinity will not tell us why this happened, so we took measures and made backup plans.&lt;/p>
+&lt;pre>&lt;code>The Xfinity block blocked the entire TLD, not just the subdomain we found in some instances. We made a backup VPN URL under a different TLD to allow our users to connect. If we used a VPN.jasonkuehl.com, we made vpn.jasonkuehl.blah. This was a massive solution for us, allowing all blocked Xfinity users to connect.
+We made documentation to show users how to unblock our URL from the Xfinity app and how to turn off Xfinity’s advanced security.
+We request that users open tickets with Xfinity and provide them to us.
+I sent in a SPA request to unblock the URL.
+&lt;/code>&lt;/pre>
+&lt;p>If you found this frustrating and wanted to smash things, I did, too. The problem is this is 100% out of your control. If you were ever affected by Xfinity, create the backup VPN URL. It will allow all your users to connect and work.&lt;/p>
+&lt;p>Technical details.&lt;/p>
+&lt;p>If you try to hit the URL, you’ll see this. It makes you think that your SSL might be messed up or broken. But if you check on other ISPs, fine.&lt;/p>
+&lt;p>It works fine if you hit your VPN without the cert and do it directly to the IP. But using the URL will fail, not connect, and can’t hit the destination.&lt;/p></description></item><item><title>RCN Business Cable Internet Is Not Business Ready</title><link>https://blog.jasonkuehl.com/p/rcn-business-cable-internet-is-not-business-ready/</link><pubDate>Sat, 30 Apr 2022 00:00:00 +0000</pubDate><guid>https://blog.jasonkuehl.com/p/rcn-business-cable-internet-is-not-business-ready/</guid><description>&lt;img src="https://blog.jasonkuehl.com/p/rcn-business-cable-internet-is-not-business-ready/cover.jpg" alt="Featured image of post RCN Business Cable Internet Is Not Business Ready" />&lt;p>Before we start:
+My journey with RCN over the past 6 years as a residential customer was great. I only left them due to I’m moving into a new house, and they service the area. I also what to say I’m only talking about their Cable Business internet, not any other part of their business they offer as I’ve never used their Ethernet or Fiber in business before.&lt;/p>
+&lt;p>My friend I wanted business internet with enough public IP space we both could use. We both liked RCN as residential users and gave them a ring. For a 2-year contract, we got 500/60 for 90 dollars a month with a /28 for 14 external IPs. Not too bad of a price and service and uptime wise, RCN was fine for our needs. We had only 1 outage in that 2 years that was rain-related.&lt;/p>
+&lt;p>I run a larger Lab out of a Makerspace in Somerville MA which will soon be moving into my new house :). Here I test and do a lot of different things.&lt;/p>
+&lt;pre>&lt;code>Testing out new technologies I can get my hands on
+GNS3 Lab
+Full VMware and ProxMox Setup
+Anything Docker related
+CICD (Jenkins or bla)
+Remote Coding
+Test AD Environment
+Game ServersEtc, the list goes on
+&lt;/code>&lt;/pre>
+&lt;p>With that out of the way let’s start down the road of the most bizarre issues I’ve ever had with an ISP.&lt;/p>
+&lt;ol>
+&lt;li>DHCP For Static IPS?
+From the start, we had odd issues, and it was always around our static IP Block. After an entire month of working with RCN on what was happening, we found out that RCN provides your Static IP block over DHCP. This blows my mind a little and I asked them why. They said it was to help customers who were not “tech” savvy. I asked them to disable it for our block and was told no as it was harder on the techs to debug an issue if we leave as a customer, and they reassign the block. If that new customer requests static IPS, and it’s not auto-assigned for them, it will create a ticket for them.&lt;/li>
+&lt;/ol>
+&lt;p>When I asked how are these static IPs when it’s in a DHCP scope I was told it’s static to the modem only. I will always have these IPs on our modem. Several calls to RCN later I never got them to disable this it was an actual nightmare to debug issues.&lt;/p>
+&lt;ol start="2">
+&lt;li>Don’t Plug In Any Network Device Setup to DHCP Mode&lt;/li>
+&lt;/ol>
+&lt;p>Our setup was as basic as it gets. One cable modem connected to an edge switch with a single VLAN. From here all edge devices would connect. The problem? Most network devices come with DHCP mode enabled on the outside interface meaning it would get a DHCP IP address. The head office will hand out the first IP in the list. If something was assigned to .2 “staticly” it will be overridden by the head office and that new device’s mac address (The one on DHCP) will be on file for that IP. You cant reboot the cable modem to fix this. You need to call RCN, get to a level 2 tech who can log into that piece of equipment to release the DHCP request. Then you can reboot the cable modem to get your original device working. I made this mistake once, and it took about 2 hours working with RCN to get resolved.&lt;/p>
+&lt;p>To be fair, this is how DHCP works. The DHCP Server will not know about staticly set IP addresses, but RCN will not do reservations. I tried for my entire block down to single IPs with no luck. Our workaround in case this ever happened again? We skipped the first IP in the block making it unable for an opps scenario. RCN tells you that you should be using DHCP and not staticly setting up IPS. However, that is also terrible. The head office only keeps the address logged for 2 hours (I was told). If you had an issue where your devices were offline for 3-4 hours on DHCP their records would no longer be at the head office. If you had 2 devices .2 and .3 on DHCP device1 had.2 and device 2 had.3 if device 2 booted faster it would then be .2 and device1 would be.3 See the example Below.&lt;/p>
+&lt;ol start="3">
+&lt;li>Device Failover Won’t Work&lt;/li>
+&lt;/ol>
+&lt;p>On top of how static IPS work within RCN, we found a new issue. On a device failover, the cable modem caches the mac address of the old device. What I can see in Wireshark is the cable modem still saying that the old mac address had that IP. It wont work without a reboot. I’ve done this same setup on Comcast business, Xfinity, and different Cell Carriers. The crazy part is, if I switch my firewalls to DHCP mode on the external interface it works fine. When I call RCN, they only say Active/Active or Active/passive is not supported on cable.&lt;/p>
+&lt;ol start="4">
+&lt;li>Customer Name Change&lt;/li>
+&lt;/ol>
+&lt;p>This was the most annoying part of all of this. I decided to move my lab into my new house and need to change the names on the account over to my friend. We got the name change forum and I asked if “Anything else is needed or to worry about” RCN said no that the account would move over to him as is. That was not the case. On the account change, we lost our static IP block. It took over 4 hours for RCN to fix the issue. According to RCN, I should have told them we had a static IP block. Because they treated it as a new account. After talking to a supervisor I was told “It’s the customer’s responsibly to let us know about their static ranges” Below you can see the only questions I was ever asked.&lt;/p>
+&lt;p>This was a rollercoaster of a ride and at the end of the day, I can’t recommend RCN to anyone for business. They have both process issues and will bring technical challenges to the customer if they expect things to work as it does with other carriers.&lt;/p></description></item><item><title>Dell N Series – No Free IP Address To Offer In Pool</title><link>https://blog.jasonkuehl.com/p/dell-n-series-1/</link><pubDate>Sun, 06 Mar 2022 00:00:00 +0000</pubDate><guid>https://blog.jasonkuehl.com/p/dell-n-series-1/</guid><description>&lt;img src="https://blog.jasonkuehl.com/p/dell-n-series-1/cover.jpg" alt="Featured image of post Dell N Series – No Free IP Address To Offer In Pool" />&lt;p>Dell N Series – No Free IP Address To Offer In Pool
+Blog Networking
+October 13, 2020 jasonkuehl&lt;/p>
+&lt;p>At this site we installed a new Dell N Series core replacing a bunch of old junk. As I’m doing the new build I moved all the DHCP requests to the core and away from windows which took care of all the DHCP requests. This was on a off day with no one around (Duh replacing the core) and I was not really worried. After about 30 minutes my console is filling up with the below messages.&lt;/p>
+&lt;p>Note: Yes it’s VLAN1 it predates me and is waaay too messy to remove in a weekend.&lt;/p>
+&lt;p>&lt;code>Error “No Free IP Address To Offer in pool VLAN1”&lt;/code>&lt;/p>
+&lt;p>&lt;em>Start freaking out&lt;/em> Did I fill the pool already? How can that be?&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">show ip dhcp binding
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>Everything looks fine, and the pool is not even close to full… To the Logs!&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">show logs
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>I’ve seen this before in Cisco where a device holds onto a DHCP address. You need to track down the MAC and give the device a reboot. After the reboot (of the device) these errors should go away.&lt;/p>
+&lt;p>Full Image&lt;/p></description></item><item><title>Google Geo Location Issues</title><link>https://blog.jasonkuehl.com/p/google-geo-location-issues/</link><pubDate>Sun, 06 Mar 2022 00:00:00 +0000</pubDate><guid>https://blog.jasonkuehl.com/p/google-geo-location-issues/</guid><description>&lt;img src="https://blog.jasonkuehl.com/p/google-geo-location-issues/cover.jpg" alt="Featured image of post Google Geo Location Issues" />&lt;p>Google runs its database like ARIN on who owns what IP and sets a location. If you look up an IP owner in ARIN, you’ll see the name, address, and IP location. Google does this as well, but it’s private.&lt;/p>
+&lt;p>This becomes important when your Google page suddenly shows Belarus. You need to contact Google or ARIN. You’ll know it’s a Google issue if you don’t see this issue in Bing or DuckDuckGo.&lt;/p>
+&lt;p>If you’re reading this, your Google location now shows a different country or area from your owned IP location in ARIN. Google has changed this in their database. The process to fix this will take 1–2 months. You need to open a ticket with &lt;a class="link" href="mailto:noc@google.com" >noc@google.com&lt;/a>&lt;/p>
+&lt;p>If you’re an ISP, you can use &lt;a class="link" href="https://isp.google.com/" target="_blank" rel="noopener"
+>https://isp.google.com/&lt;/a>. Anyone who runs a VPN for a company website or other service must open a ticket with the NOC. If you can get an ISP account, you can control IP address locations.&lt;/p>
+&lt;p>I got this information from the &lt;a class="link" href="mailto:nanog@nanog.org" >nanog@nanog.org&lt;/a> mailing list. I contacted a Google Ops Engineer on this list, who told me to use &lt;a class="link" href="mailto:noc@google.com" >noc@google.com&lt;/a> for all Google-related issues. They were able to send my issue over to the correct department. For all my funky-related network issues, I posted them to this list to get help from other engineers.&lt;/p>
+&lt;p>See the below response from Google.&lt;/p>
+&lt;p>At the end of the day, a bug in the service saw traffic from Belarus, and Google started to assume this was the main location where that IP belonged. After talking with other engineers from other companies, this is “normal” when you start to branch out in hiring from other countries. However, it would never be an issue if Google just used the ARIN database like everyone else.&lt;/p></description></item><item><title>Title of post</title><link>https://blog.jasonkuehl.com/p/weburl/</link><pubDate>Sun, 06 Mar 2022 00:00:00 +0000</pubDate><guid>https://blog.jasonkuehl.com/p/weburl/</guid><description>&lt;img src="https://blog.jasonkuehl.com/p/weburl/cover.jpg" alt="Featured image of post Title of post" />&lt;p>Bla Bla Bla&lt;/p></description></item><item><title>FTP Is 50 Today</title><link>https://blog.jasonkuehl.com/p/ftp-is-50-today/</link><pubDate>Fri, 16 Apr 2021 00:00:00 +0000</pubDate><guid>https://blog.jasonkuehl.com/p/ftp-is-50-today/</guid><description>&lt;img src="https://blog.jasonkuehl.com/p/ftp-is-50-today/cover.jpg" alt="Featured image of post FTP Is 50 Today" />&lt;p>April 16th, 1971 RFC959 (you may know it as FTP) was born, making it 50 years old today. Even though it is that old and there are serious security concerns, there are still numerous FTP servers running. For example (Pulled from Shodan):&lt;/p>
+&lt;pre>&lt;code>United States 736,721
+Japan 285,691
+China 284,550
+Germany 280,699
+Russian Federation 151,815
+&lt;/code>&lt;/pre>
+&lt;p>Let’s look just into the United States numbers on top products:&lt;/p>
+&lt;pre>&lt;code>Microsoft ftpd 496,113
+Pure-FTPd 122,447
+Serv-U ftpd 34,093
+Multicraft ftpd 32,531
+D-Link DLS-2750U13,543
+&lt;/code>&lt;/pre>
+&lt;h2 id="ftp-lacks-security">FTP Lacks Security
+&lt;/h2>&lt;p>FTP is inherently a non-secure way to transfer data. When a file is sent using this protocol the data, username, and password are all shared in plain text, which means a hacker can access this information with little to no effort.&lt;/p>
+&lt;p>Most of the FTP services I looked at didn’t allow anonymous login but did have usernames and passwords attached. Which you think would be a good security protocol. However, all these servers (since they’re running Microsoft ftpd) could be exploited by CVE-2009-3023. There are 2 known public bash-like exploits that anyone can run just off GitHub, and the 3rd is a very easy-to-use Metasploit module:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">‘show options’ or ‘show advanced’:
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">msf &amp;gt; use exploit/multi/ftp/pureftpd_bash_env_exec msf
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">exploit(pureftpd_bash_env_exec) &amp;gt; show targets …targets… msf
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">exploit(pureftpd_bash_env_exec) &amp;gt; set TARGET &amp;lt; target-id &amp;gt; msf
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">exploit(pureftpd_bash_env_exec) &amp;gt; show options …show and set
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">options… msf exploit(pureftpd_bash_env_exec) &amp;gt; exploit
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="data">Data.
+&lt;/h2>&lt;p>Plus the data is transmitted unencrypted. Need I say more…&lt;/p>
+&lt;h2 id="nat">Nat.
+&lt;/h2>&lt;p>A dynamic, secondary port, is needed for the data channels, which makes firewall and port forwarding more complex and beyond the abilities of most home network administrators. This is required to achieve the fantastic transfer speeds that many FTP proponents crow about.&lt;/p>
+&lt;h2 id="conclusion">Conclusion.
+&lt;/h2>&lt;p>Today, FTP should only be used on extreme legacy systems and for public access anonymous FTP. Even for anonymous public access, HTTPS and web servers have largely replaced FTP. Since FTP is unencrypted, man-in-the-middle attacks can and have been used to inject malware into software downloaded using FTP.&lt;/p>
+&lt;p>Yet, there are so many still online. Basic things you buy today come with FTP enabled (like printers).&lt;/p>
+&lt;p>If you really need external file transfer, you should already be used SFTP at the very least or HTTPS for public files.&lt;/p>
+&lt;p>Lord stop using FTP already. #StopUsingFTP&lt;/p></description></item><item><title>How I Found An S3 Vulnerability</title><link>https://blog.jasonkuehl.com/p/how-i-found-an-s3-vulnerability/</link><pubDate>Tue, 13 Oct 2020 00:00:00 +0000</pubDate><guid>https://blog.jasonkuehl.com/p/how-i-found-an-s3-vulnerability/</guid><description>&lt;img src="https://blog.jasonkuehl.com/p/how-i-found-an-s3-vulnerability/cover.jpg" alt="Featured image of post How I Found An S3 Vulnerability" />&lt;p>It all started back in 2018 with the below email:&lt;/p>
+&lt;p>I selected the link within the email it brought me to the following URL.&lt;/p>
+&lt;p>Notice it’s a straight S3 link to a public S3 URL, with PII in it. (Take my word on that) :). So I sent this email:&lt;/p>
+&lt;p>To which they responded:&lt;/p>
+&lt;p>Now, remember, this is 2018: right at the height of the S3 bucket madness. You couldn’t go a single month without seeing a new S3 Leak in the headlines. To name a few examples.&lt;/p>
+&lt;ul>
+&lt;li>Booz Allen Hamilton The U.S. defense contractor&lt;/li>
+&lt;li>U.S. Voter Records A Republican-party backed big data firm&lt;/li>
+&lt;li>Dow Jones &amp;amp; Co Personally identifiable information for 2.2 million people&lt;/li>
+&lt;li>WWE Personally identifiable information about over 3 million wrestling fans&lt;/li>
+&lt;li>Verizon Wireless Personally identifiable information about 6 million people&lt;/li>
+&lt;li>Time Warner Cable Personally identifiable information about 4 million customers&lt;/li>
+&lt;li>Pentagon Exposures Terabytes of information from spying archive, resume for intelligence positions–including security clearance and operations history, credentials and metadata from an intra-agency&lt;/li>
+&lt;li>intelligence sharing platform.&lt;/li>
+&lt;li>National Credit Federation 111GB of detailed financial information&lt;/li>
+&lt;/ul>
+&lt;p>Luckily, the Org I’m talking about here knew about the issues and was trying to fix it! Great! I sent this follow up:&lt;/p>
+&lt;p>The job was done, right? End of post? You’d be incorrect. Fast-forward to 2020. COVID-19 hit, and I needed to reactivate my membership to get access to this software again.&lt;/p>
+&lt;p>Once again, I got an invoice but this time there is no special link, like the one above. The link is just s3.amazonaws.com/JKLOL/HASH/INVOICE.PDF&lt;/p>
+&lt;p>I remembered that I emailed them about this earlier and was able to find that same email. I also found out later that the ticket I opened in 2018 was never closed. I start to fire off emails:&lt;/p>
+&lt;p>Their response:&lt;/p>
+&lt;p>In my next email I gave them some more details on the issue the same in 2018:&lt;/p>
+&lt;p>To which they responded:&lt;/p>
+&lt;p>Amazon.com: Challenge Accepted MEME Vinyl Decal Sticker- 12&amp;quot; Wide &amp;hellip;&lt;/p>
+&lt;p>“Working As Designed” by leaving PII data in a public S3 path. I didn’t buy what they were selling. I took him up on their offer of providing links/evidence.&lt;/p>
+&lt;p>As I started digging, I began where anyone would. Could I get to the data from the root of the URL? The answer was yes. When I went to the roof of the bucket name, I almost filled my pants when I saw a full XML list of hashes and links to files.&lt;/p>
+&lt;p>(Part of the email I sent with my evidence)&lt;/p>
+&lt;p>It was FILLED with PII. I started digging even more:&lt;/p>
+&lt;p>Credit card and checking data. Not full numbers or accounts (thank Tux). But now I’m really starting to wonder if there is any more data in here?&lt;/p>
+&lt;p>I decided that instead of building a fancy script that would parse the XML and look pretty, I would make it as nasty as possible to pull all the data in the bucket. This was more or less to prove a point that you don’t need a nice script to get access to critical data. With a combination of wget, cat, cut, awk, and sed I was able to do this.&lt;/p>
+&lt;p>I got a complete list of all objects in the open folder. From here I used pdftotext to mass convert all PDF’s into text. I then did searches for all my contact information and found nothing (which made me extremely happy). Then I deleted the rest of the data. However, I did find things like this telling me this company does a lot of other processing for other companies.&lt;/p>
+&lt;p>I took at this data, everything I learned and sent it off to my vendor. This is what I got back 🙂&lt;/p>
+&lt;p>With that, I wait. Working in the same field I do know that these things take time to fix.&lt;/p>
+&lt;p>However, what is the fix? Well, if you don’t use IAC (Infra As Code) it’s 3 clicks to turn off listing objects (Instructions) and just uncheck that button.&lt;/p>
+&lt;p>If applying a policy is more your style here is the basics for a public bucket.
+This will allow for only a get on objects and you need the entire path.&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">{
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &amp;#34;Version&amp;#34;: &amp;#34;2012-10-17&amp;#34;,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &amp;#34;Statement&amp;#34;: [
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> {
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &amp;#34;Sid&amp;#34;: &amp;#34;PublicReadGetObject&amp;#34;,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &amp;#34;Effect&amp;#34;: &amp;#34;Allow&amp;#34;,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &amp;#34;Principal&amp;#34;: &amp;#34;&amp;#34;,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &amp;#34;Action&amp;#34;: [
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &amp;#34;s3:GetObject&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> ],
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &amp;#34;Resource&amp;#34;: [
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &amp;#34;arn:aws:s3:::canihavepumpkinspiceyet/&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> ]
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> }
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> ]
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>With the entire path being required you can hash the locations to your objects like the vendors in the real world example did do. But they made one fatal mistake by leaving that option enabled and thus exposed PII to the internet.&lt;/p>
+&lt;p>I waited one week before asking if they clicked that button.&lt;/p>
+&lt;p>Well. I can see I’m going to have to look at other options and disclose to others I trusted with what I had found. I talked to a few friends of mine in the security world to get some advice. They suggested the following:&lt;/p>
+&lt;ol>
+&lt;li>Look over the entire site for any kind of company contact or email address.&lt;/li>
+&lt;li>Start looking at LinkedIn and see what you can find about who works at the company to contact them directly&lt;/li>
+&lt;/ol>
+&lt;p>After some googling, I found a 3rd option: trying the “basic” email address. Abuse@, Security@, admin@, webmaster@, postmaster@, and privacy@.&lt;/p>
+&lt;p>I did just that. The company had zero contact information on their site which I didn’t really expect. I turned my sights to LinkedIn! From what I learned, this a vendor of the company from whom I’m getting this product. I started looking deeper and I saw that they have a very active security department. I began to mass spam and I got a response! He was able to get me the email of a person that I can send the issue over to, including all the other emails and proof I came up with. Here is my interaction with them:&lt;/p>
+&lt;p>I went to town!&lt;/p>
+&lt;p>Within 2 hours I got this message back from someone else, not a support person (Better…..) and they stated that there will be an update “soon”. Around 6pm I hear the vendor will be deploying a fix by Friday.&lt;/p>
+&lt;p>Oh, the engineers must love me by now. But apparently, cage-rattling seems to have worked.&lt;/p>
+&lt;p>So I waited, and I was happy to find it was ultimately fixed.&lt;/p>
+&lt;p>The moral of the story is if you see a major problem don’t give up until that problem is fixed!&lt;/p>
+&lt;p>I will be writing another post about what I learned and what you need to know if you find something like this or any type of security issue. {link post here}&lt;/p></description></item><item><title>Learn By Failing</title><link>https://blog.jasonkuehl.com/p/failing-is-learning/</link><pubDate>Tue, 24 Mar 2020 00:00:00 +0000</pubDate><guid>https://blog.jasonkuehl.com/p/failing-is-learning/</guid><description>&lt;img src="https://blog.jasonkuehl.com/p/failing-is-learning/cover.jpg" alt="Featured image of post Learn By Failing" />&lt;h1 id="learn-by-failing">Learn By Failing
+&lt;/h1>&lt;p>It happened. You finally landed that next large project, the one that you think will defend all of your decisions leading up to this point. The big one that will redeem all of that hard work during the years leading up to it.&lt;/p>
+&lt;p>But the fact is that there is no one project that will do that. No one project will ever do that because that’s not how life works. All these projects really are is a way to gain more experience and learn from them.&lt;/p>
+&lt;p>Unfortunately and despite the actually reality of the situation, there are many people out there that still believe that one large project will make or break their career. And this causes lots of distress and lots of negative self-talk. This is especially true for people working in a start-up and in enterprise business.&lt;/p>
+&lt;p>What follows are sayings (that negative self-talk) that I have heard from many people in my life. I’m going to write about each and give you ways to help better yourself and give you the confidence you need to succeed. While I am no expert, I hope that this can help at least a few people realize that failure is part of life and one project will not make or break you.&lt;/p>
+&lt;h2 id="if-i-fail-im-going-to-be-fired">If I fail, I’m going to be fired.
+&lt;/h2>&lt;p>I see this a lot especially with new people (Interns, Jrs, and fresh engineers). That being said, I have also seen this with Seniors, but I’ll cover that case as well later.&lt;/p>
+&lt;p>If you’re fresh to the tech world, and you feel that this statement is true where you are, you need to create a workplace that allows you to fail. You need a space that gives you people to learn from and someone to lean on when (yes not “if” but “when”) you do fail.&lt;/p>
+&lt;p>But you’re new, so of course, you’re afraid to do a lot of things; you need someone to ask, “Hey, I’m going to do X. Is that ok?” This is very important for all teams to have great communication. Be it quick, useful meetings, chat rooms, emails, or all of the above, you need to find a place that everyone talks to each other and helps each other through potential failures.&lt;/p>
+&lt;p>If your company is not supportive like this, you need to move on. Nobody needs that negativity in their life. You should never be afraid to fail and your workplace should reflect an attitude of failure is how people learn.&lt;/p>
+&lt;h2 id="if-something-fails-then-clearly-someone-is-to-blame">If something fails then clearly someone is to blame
+&lt;/h2>&lt;p>Tim broke X or Todd did Y. in reality, rarely are Tim and Todd the issue here. The process is. 99 times out of a 100 something failed because the process wasn’t well defined or was incorrect.&lt;/p>
+&lt;p>Every place you go should have run books or SOPs or some sort of documentation on how a process should be done. If that process is followed and something fails, it is the process that didn’t work, and it needs to be updated.&lt;/p>
+&lt;p>What about the new process or undocumented items you might ask? Then it’s time to build a process and implement it. Before implementing it though, you have to make sure to thoroughly test it and make sure it works. This way others will have one for next time. And then you document it so clearly that anyone could follow it.&lt;/p>
+&lt;p>The worst case scenario of this is when only 1 person knows the process. A process that is in some guy’s head is not a process, that’s a failure point. When Tim needs help with X, but Jenny is on vacation, and you can’t fix X, that’s a problem and it’s nobody’s fault but the company for not having standard written processes. Get all processes on paper to prevent failure like this and remember it’s not your fault if your company hasn’t written processes down.&lt;/p>
+&lt;p>If you fail, you’re weak and not good enough.&lt;/p>
+&lt;p>Imposter syndrome is genuine. It doesn’t matter if you’re new to the field or have been doing this for years. You get this feeling that you are somehow inferior because you failed.&lt;/p>
+&lt;p>How do you bust that feeling? Well, everyone has something that helps, but surrounding yourself with a network of people to build you up and remind you that failure just means you are learning is very important. If you don’t have that network of people, you feel like you’re lost at sea with no land around you. You need to build that support structure.&lt;/p>
+&lt;h2 id="denial-of-mistake-making">Denial of Mistake Making
+&lt;/h2>&lt;p>The biggest problem with people and companies is is denying when you have made a mistake, or a project didn’t go as planned. I’ve seen many a ship sink on this iceberg.&lt;/p>
+&lt;p>This is a hard thing to teach people because most people (especially Americans) have been programmed to think that failure is never an option and that failure will lead to my first point (being fired).&lt;/p>
+&lt;p>However, you need to fail to learn so that your project can go on. No project ever works the first time. I mean think of the greatest scientific achievements in history: all of them came about through trial and error.&lt;/p>
+&lt;p>That being said, fear of failure is so engrained into our society that it is very hard to break people of that mindset. There is no cookbook that helps people understand this. It takes working in a positive work environment to reassure you that failing is just part of the process. It’s with that reassurance that you can build up your confidence.&lt;/p>
+&lt;p>So Who is Causing These Issues and Feelings to Occur?&lt;/p>
+&lt;p>So for the most part people’s outlook of the workplace is influenced by what is around them. So, besides societal pressure to never fail, who is perpetuating this false claim that failure is the worst thing ever and that you will be fired and branded a loser if you fail?&lt;/p>
+&lt;p>Toxic people: They have one goal, suck your life away. They don’t care about you and will only bring you misery. They only care about themselves.&lt;/p>
+&lt;h2 id="how-to-id-these-kinds-of-people">How to ID these kinds of people?
+&lt;/h2>&lt;ul>
+&lt;li>You’re emotionally affected by their drama.&lt;/li>
+&lt;li>You dread (or fear) being around them.&lt;/li>
+&lt;li>You’re exhausted, or you feel angry while you’re with them or after your interaction.&lt;/li>
+&lt;li>You feel bad or ashamed about yourself.&lt;/li>
+&lt;li>You’re stuck in a cycle of trying to rescue, fix, or care for them.&lt;/li>
+&lt;/ul>
+&lt;p>The sooner you remove them from your life, the sooner you can work on building up your confidence again.&lt;/p>
+&lt;h2 id="toxic-space">Toxic Space
+&lt;/h2>&lt;p>If you see these run, don’t look back, and move on. Always remember that you can leave at any time, you don’t owe any company anything.&lt;/p>
+&lt;p>How to ID these kinds of places?&lt;/p>
+&lt;ul>
+&lt;li>You’re told to feel, “lucky you have a job.”…&lt;/li>
+&lt;li>Poor communication.&lt;/li>
+&lt;li>Everyone has a bad attitude. …&lt;/li>
+&lt;li>There’s always office drama. …&lt;/li>
+&lt;li>Dysfunction reigns. …&lt;/li>
+&lt;li>You have a tyrannical boss. …&lt;/li>
+&lt;li>You feel in your gut that something is off.&lt;/li>
+&lt;/ul>
+&lt;p>The power of “no” is amazing, and you shouldn’t be afraid to use it. You have a choice, and you know better than all that your priorities are.&lt;/p>
+&lt;h2 id="poor-leaders">Poor Leaders
+&lt;/h2>&lt;p>Just like toxic people, these are the people who will help drive your future in your career.&lt;/p>
+&lt;ul>
+&lt;li>Oppositional behavior&lt;/li>
+&lt;li>Makes you feel terrible for over simple mistake&lt;/li>
+&lt;li>Plays power politics&lt;/li>
+&lt;li>Doesn’t tech or let you learn&lt;/li>
+&lt;li>Abuse of the disciplinary system&lt;/li>
+&lt;li>bullying, gaslighting, sexists&lt;/li>
+&lt;li>course causes workplace division&lt;/li>
+&lt;/ul>
+&lt;h2 id="what-should-your-leadership-actually-be-doing">What should your leadership actually be doing?
+&lt;/h2>&lt;ul>
+&lt;li>Seeing a potential vision on your future, asking what you want your future to be, and helping to shape it to meet both of your needs.&lt;/li>
+&lt;li>Giving you an ability to drive your own projects you thought of.&lt;/li>
+&lt;li>Supports you when you need it&lt;/li>
+&lt;li>Being there for you when you need someone to talk to or toss ideas off of.&lt;/li>
+&lt;li>You can tell them no and have a talk about why you said no.&lt;/li>
+&lt;/ul>
+&lt;h2 id="what-can-you-do-right-now">What Can You Do Right Now
+&lt;/h2>&lt;p>We’ve talked about what failure types and people who are not supportive and ways to identify them. But what can you do to build your empire and get that reinforcement if it’s not in the workplace and find a place where it is?&lt;/p>
+&lt;p>Building a network. : Go out and meet others in your field and talk shop. You will figure out you’re not alone and that others might have similar issues.&lt;/p>
+&lt;p>Go to fun events: Go to events that look like fun to meet others and build upon that network. Even if that’s something you never done before. Build your community or join one with positive people.&lt;/p>
+&lt;p>Start doing fun in field projects: If you really like the work you are doing, start practicing outside of work! To be good at something, it needs to be close to second nature. Start doing in-field projects outside of work or if your work has a “playpen” where you can build and make things use it. Check the areas for a local makerspace, too, as these are great places to find others with your passions.&lt;/p>
+&lt;h2 id="conclusion">Conclusion
+&lt;/h2>&lt;p>Work and people can be a chore in and of itself. It can trigger anxiety, stress, and feeling of dread some (if not most) days. You need your time to decompress. Maybe that is time with your significant other, playing at a makerspace, out with friends, building a car, writing, drawing, video games; whatever it might be, think about yourself and what you like to do. Whatever your life stress is, think about yourself. Your health is worth more than ending up in the ER because of a panic attack (True Story).&lt;/p>
+&lt;p>Why am I talking about all this? Why does this even need to be informed about? People think “failure is a sin” is normal, and it’s not. If you’re reading this is going, “Wow, I see this at work” or “wow, this is happening to me now” it’s because this happens daily to a lot of people. It’s not until you identify what happening that you can work on the way to resolve it. Unfortunately, some companies and people are so set in their ways that it can feel like moving a Stubborn mule to get any real change to happen. They’re not going to change, and these kinds of people don’t want too. You have a choice and a voice to do what you want to.&lt;/p>
+&lt;p>Don’t let others think they can control you.&lt;/p></description></item><item><title>Markdown Syntax Guide</title><link>https://blog.jasonkuehl.com/p/markdown-syntax-guide/</link><pubDate>Thu, 07 Sep 2023 00:00:00 +0000</pubDate><guid>https://blog.jasonkuehl.com/p/markdown-syntax-guide/</guid><description>&lt;p>This article offers a sample of basic Markdown syntax that can be used in Hugo content files, also it shows whether basic HTML elements are decorated with CSS in a Hugo theme.&lt;/p>
+&lt;h2 id="headings">Headings
+&lt;/h2>&lt;p>The following HTML &lt;code>&amp;lt;h1&amp;gt;&lt;/code>—&lt;code>&amp;lt;h6&amp;gt;&lt;/code> elements represent six levels of section headings. &lt;code>&amp;lt;h1&amp;gt;&lt;/code> is the highest section level while &lt;code>&amp;lt;h6&amp;gt;&lt;/code> is the lowest.&lt;/p>
+&lt;h1 id="h1">H1
+&lt;/h1>&lt;h2 id="h2">H2
+&lt;/h2>&lt;h3 id="h3">H3
+&lt;/h3>&lt;h4 id="h4">H4
+&lt;/h4>&lt;h5 id="h5">H5
+&lt;/h5>&lt;h6 id="h6">H6
+&lt;/h6>&lt;h2 id="paragraph">Paragraph
+&lt;/h2>&lt;p>Xerum, quo qui aut unt expliquam qui dolut labo. Aque venitatiusda cum, voluptionse latur sitiae dolessi aut parist aut dollo enim qui voluptate ma dolestendit peritin re plis aut quas inctum laceat est volestemque commosa as cus endigna tectur, offic to cor sequas etum rerum idem sintibus eiur? Quianimin porecus evelectur, cum que nis nust voloribus ratem aut omnimi, sitatur? Quiatem. Nam, omnis sum am facea corem alique molestrunt et eos evelece arcillit ut aut eos eos nus, sin conecerem erum fuga. Ri oditatquam, ad quibus unda veliamenimin cusam et facea ipsamus es exerum sitate dolores editium rerore eost, temped molorro ratiae volorro te reribus dolorer sperchicium faceata tiustia prat.&lt;/p>
+&lt;p>Itatur? Quiatae cullecum rem ent aut odis in re eossequodi nonsequ idebis ne sapicia is sinveli squiatum, core et que aut hariosam ex eat.&lt;/p>
+&lt;h2 id="blockquotes">Blockquotes
+&lt;/h2>&lt;p>The blockquote element represents content that is quoted from another source, optionally with a citation which must be within a &lt;code>footer&lt;/code> or &lt;code>cite&lt;/code> element, and optionally with in-line changes such as annotations and abbreviations.&lt;/p>
+&lt;h3 id="blockquote-without-attribution">Blockquote without attribution
+&lt;/h3>&lt;blockquote>
+&lt;p>Tiam, ad mint andaepu dandae nostion secatur sequo quae.
+&lt;strong>Note&lt;/strong> that you can use &lt;em>Markdown syntax&lt;/em> within a blockquote.&lt;/p>
+&lt;/blockquote>
+&lt;h3 id="blockquote-with-attribution">Blockquote with attribution
+&lt;/h3>&lt;blockquote>
+&lt;p>Don&amp;rsquo;t communicate by sharing memory, share memory by communicating.&lt;br>
+— &lt;cite>Rob Pike&lt;sup id="fnref:1">&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref">1&lt;/a>&lt;/sup>&lt;/cite>&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="tables">Tables
+&lt;/h2>&lt;p>Tables aren&amp;rsquo;t part of the core Markdown spec, but Hugo supports supports them out-of-the-box.&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>Name&lt;/th>
+&lt;th>Age&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>Bob&lt;/td>
+&lt;td>27&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>Alice&lt;/td>
+&lt;td>23&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;h3 id="inline-markdown-within-tables">Inline Markdown within tables
+&lt;/h3>&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>Italics&lt;/th>
+&lt;th>Bold&lt;/th>
+&lt;th>Code&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>&lt;em>italics&lt;/em>&lt;/td>
+&lt;td>&lt;strong>bold&lt;/strong>&lt;/td>
+&lt;td>&lt;code>code&lt;/code>&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>A&lt;/th>
+&lt;th>B&lt;/th>
+&lt;th>C&lt;/th>
+&lt;th>D&lt;/th>
+&lt;th>E&lt;/th>
+&lt;th>F&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>Lorem ipsum dolor sit amet, consectetur adipiscing elit.&lt;/td>
+&lt;td>Phasellus ultricies, sapien non euismod aliquam, dui ligula tincidunt odio, at accumsan nulla sapien eget ex.&lt;/td>
+&lt;td>Proin eleifend dictum ipsum, non euismod ipsum pulvinar et. Vivamus sollicitudin, quam in pulvinar aliquam, metus elit pretium purus&lt;/td>
+&lt;td>Proin sit amet velit nec enim imperdiet vehicula.&lt;/td>
+&lt;td>Ut bibendum vestibulum quam, eu egestas turpis gravida nec&lt;/td>
+&lt;td>Sed scelerisque nec turpis vel viverra. Vivamus vitae pretium sapien&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;h2 id="code-blocks">Code Blocks
+&lt;/h2>&lt;h3 id="code-block-with-backticks">Code block with backticks
+&lt;/h3>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-html" data-lang="html">&lt;span class="line">&lt;span class="cl">&lt;span class="cp">&amp;lt;!doctype html&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">html&lt;/span> &lt;span class="na">lang&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;en&amp;#34;&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">head&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">meta&lt;/span> &lt;span class="na">charset&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;utf-8&amp;#34;&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">title&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>Example HTML5 Document&lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">title&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">head&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">body&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">p&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>Test&lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">p&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">body&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">html&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="code-block-indented-with-four-spaces">Code block indented with four spaces
+&lt;/h3>&lt;pre>&lt;code>&amp;lt;!doctype html&amp;gt;
+&amp;lt;html lang=&amp;quot;en&amp;quot;&amp;gt;
+&amp;lt;head&amp;gt;
+&amp;lt;meta charset=&amp;quot;utf-8&amp;quot;&amp;gt;
+&amp;lt;title&amp;gt;Example HTML5 Document&amp;lt;/title&amp;gt;
+&amp;lt;/head&amp;gt;
+&amp;lt;body&amp;gt;
+&amp;lt;p&amp;gt;Test&amp;lt;/p&amp;gt;
+&amp;lt;/body&amp;gt;
+&amp;lt;/html&amp;gt;
+&lt;/code>&lt;/pre>
+&lt;h3 id="diff-code-block">Diff code block
+&lt;/h3>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-diff" data-lang="diff">&lt;span class="line">&lt;span class="cl">[dependencies.bevy]
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">git = &amp;#34;https://github.com/bevyengine/bevy&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">rev = &amp;#34;11f52b8c72fc3a568e8bb4a4cd1f3eb025ac2e13&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="gd">- features = [&amp;#34;dynamic&amp;#34;]
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="gd">&lt;/span>&lt;span class="gi">+ features = [&amp;#34;jpeg&amp;#34;, &amp;#34;dynamic&amp;#34;]
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="one-line-code-block">One line code block
+&lt;/h3>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-html" data-lang="html">&lt;span class="line">&lt;span class="cl">&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">p&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>A paragraph&lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">p&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="list-types">List Types
+&lt;/h2>&lt;h3 id="ordered-list">Ordered List
+&lt;/h3>&lt;ol>
+&lt;li>First item&lt;/li>
+&lt;li>Second item&lt;/li>
+&lt;li>Third item&lt;/li>
+&lt;/ol>
+&lt;h3 id="unordered-list">Unordered List
+&lt;/h3>&lt;ul>
+&lt;li>List item&lt;/li>
+&lt;li>Another item&lt;/li>
+&lt;li>And another item&lt;/li>
+&lt;/ul>
+&lt;h3 id="nested-list">Nested list
+&lt;/h3>&lt;ul>
+&lt;li>Fruit
+&lt;ul>
+&lt;li>Apple&lt;/li>
+&lt;li>Orange&lt;/li>
+&lt;li>Banana&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Dairy
+&lt;ul>
+&lt;li>Milk&lt;/li>
+&lt;li>Cheese&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="other-elements--abbr-sub-sup-kbd-mark">Other Elements — abbr, sub, sup, kbd, mark
+&lt;/h2>&lt;p>&lt;abbr title="Graphics Interchange Format">GIF&lt;/abbr> is a bitmap image format.&lt;/p>
+&lt;p>H&lt;sub>2&lt;/sub>O&lt;/p>
+&lt;p>X&lt;sup>n&lt;/sup> + Y&lt;sup>n&lt;/sup> = Z&lt;sup>n&lt;/sup>&lt;/p>
+&lt;p>Press &lt;kbd>CTRL&lt;/kbd> + &lt;kbd>ALT&lt;/kbd> + &lt;kbd>Delete&lt;/kbd> to end the session.&lt;/p>
+&lt;p>Most &lt;mark>salamanders&lt;/mark> are nocturnal, and hunt for insects, worms, and other small creatures.&lt;/p>
+&lt;div class="footnotes" role="doc-endnotes">
+&lt;hr>
+&lt;ol>
+&lt;li id="fn:1">
+&lt;p>The above quote is excerpted from Rob Pike&amp;rsquo;s &lt;a class="link" href="https://www.youtube.com/watch?v=PAAkCSZUG1c" target="_blank" rel="noopener"
+>talk&lt;/a> during Gopherfest, November 18, 2015.&amp;#160;&lt;a href="#fnref:1" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;/div></description></item><item><title>Image gallery</title><link>https://blog.jasonkuehl.com/p/image-gallery/</link><pubDate>Sat, 26 Aug 2023 00:00:00 +0000</pubDate><guid>https://blog.jasonkuehl.com/p/image-gallery/</guid><description>&lt;img src="https://blog.jasonkuehl.com/p/image-gallery/2.jpg" alt="Featured image of post Image gallery" />&lt;p>Hugo theme Stack supports the creation of interactive image galleries using Markdown. It&amp;rsquo;s powered by &lt;a class="link" href="https://photoswipe.com/" target="_blank" rel="noopener"
+>PhotoSwipe&lt;/a> and its syntax was inspired by &lt;a class="link" href="https://typlog.com/" target="_blank" rel="noopener"
+>Typlog&lt;/a>.&lt;/p>
+&lt;p>To use this feature, the image must be in the same directory as the Markdown file, as it uses Hugo&amp;rsquo;s page bundle feature to read the dimensions of the image. &lt;strong>External images are not supported.&lt;/strong>&lt;/p>
+&lt;h2 id="syntax">Syntax
+&lt;/h2>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-markdown" data-lang="markdown">&lt;span class="line">&lt;span class="cl">![&lt;span class="nt">Image 1&lt;/span>](&lt;span class="na">1.jpg&lt;/span>) ![&lt;span class="nt">Image 2&lt;/span>](&lt;span class="na">2.jpg&lt;/span>)
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="result">Result
+&lt;/h2>&lt;p>&lt;img src="https://blog.jasonkuehl.com/p/image-gallery/1.jpg"
+width="2000"
+height="1400"
+srcset="https://blog.jasonkuehl.com/p/image-gallery/1_hu4574578169203714971.jpg 480w, https://blog.jasonkuehl.com/p/image-gallery/1_hu9042511268598201431.jpg 1024w"
+loading="lazy"
+alt="Image 1"
+class="gallery-image"
+data-flex-grow="142"
+data-flex-basis="342px"
+> &lt;img src="https://blog.jasonkuehl.com/p/image-gallery/2.jpg"
+width="1500"
+height="2250"
+srcset="https://blog.jasonkuehl.com/p/image-gallery/2_hu10699635480308914167.jpg 480w, https://blog.jasonkuehl.com/p/image-gallery/2_hu1741040415904021193.jpg 1024w"
+loading="lazy"
+alt="Image 2"
+class="gallery-image"
+data-flex-grow="66"
+data-flex-basis="160px"
+>&lt;/p>
+&lt;blockquote>
+&lt;p>Photo by &lt;a class="link" href="https://unsplash.com/@mymind" target="_blank" rel="noopener"
+>mymind&lt;/a> and &lt;a class="link" href="https://unsplash.com/@lukechesser" target="_blank" rel="noopener"
+>Luke Chesser&lt;/a> on &lt;a class="link" href="https://unsplash.com/" target="_blank" rel="noopener"
+>Unsplash&lt;/a>&lt;/p>
+&lt;/blockquote></description></item><item><title>Shortcodes</title><link>https://blog.jasonkuehl.com/p/shortcodes/</link><pubDate>Fri, 25 Aug 2023 00:00:00 +0000</pubDate><guid>https://blog.jasonkuehl.com/p/shortcodes/</guid><description>&lt;img src="https://blog.jasonkuehl.com/p/shortcodes/cover.jpg" alt="Featured image of post Shortcodes" />&lt;p>For more details, check out the &lt;a class="link" href="https://stack.jimmycai.com/writing/shortcodes" target="_blank" rel="noopener"
+>documentation&lt;/a>.&lt;/p>
+&lt;h2 id="bilibili-video">Bilibili video
+&lt;/h2>
+&lt;div class="video-wrapper">
+&lt;iframe src="https://player.bilibili.com/player.html?as_wide=1&amp;amp;high_quality=1&amp;amp;page=1&amp;bvid=BV1d4411N7zD"
+scrolling="no"
+frameborder="no"
+framespacing="0"
+allowfullscreen="true"
+>
+&lt;/iframe>
+&lt;/div>
+&lt;h2 id="tencent-video">Tencent video
+&lt;/h2>
+&lt;div class="video-wrapper">
+&lt;iframe src="https://v.qq.com/txp/iframe/player.html?vid=g0014r3khdw&amp;auto=0"
+scrolling="no"
+frameborder="no"
+framespacing="0"
+allowfullscreen="true"
+>
+&lt;/iframe>
+&lt;/div>
+&lt;h2 id="youtube-video">YouTube video
+&lt;/h2>&lt;div class="video-wrapper">
+&lt;iframe loading="lazy"
+src="https://www.youtube.com/embed/0qwALOOvUik"
+allowfullscreen
+title="YouTube Video"
+>
+&lt;/iframe>
+&lt;/div>
+&lt;h2 id="generic-video-file">Generic video file
+&lt;/h2>&lt;div class="video-wrapper">
+&lt;video
+controls
+src="https://www.w3schools.com/tags/movie.mp4"
+>
+&lt;p>
+Your browser doesn't support HTML5 video. Here is a
+&lt;a href="https://www.w3schools.com/tags/movie.mp4">link to the video&lt;/a> instead.
+&lt;/p>
+&lt;/video>
+&lt;/div>
+&lt;h2 id="gist">Gist
+&lt;/h2>&lt;script src="https://gist.github.com/CaiJimmy/e2751a943de10b2a5b3a8a6c2120cb86.js">&lt;/script>
+&lt;h2 id="gitlab">GitLab
+&lt;/h2>&lt;script
+type="application/javascript"
+src="https://gitlab.com/-/snippets/2589724.js"
+>&lt;/script>
+&lt;h2 id="quote">Quote
+&lt;/h2>&lt;blockquote>
+&lt;p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.&lt;/p>&lt;span class="cite">&lt;span>― &lt;/span>&lt;span>A famous person, &lt;/span>&lt;a href="https://en.wikipedia.org/wiki/Book">&lt;cite>The book they wrote&lt;/cite>&lt;/a>&lt;/span>&lt;/blockquote>
+&lt;hr>
+&lt;blockquote>
+&lt;p>Photo by &lt;a class="link" href="https://unsplash.com/@codioful" target="_blank" rel="noopener"
+>Codioful&lt;/a> on &lt;a class="link" href="https://unsplash.com/photos/WDSN62Qdxuk" target="_blank" rel="noopener"
+>Unsplash&lt;/a>&lt;/p>
+&lt;/blockquote></description></item><item><title>Math Typesetting</title><link>https://blog.jasonkuehl.com/p/math-typesetting/</link><pubDate>Thu, 24 Aug 2023 00:00:00 +0000</pubDate><guid>https://blog.jasonkuehl.com/p/math-typesetting/</guid><description>&lt;p>Stack has built-in support for math typesetting using &lt;a class="link" href="https://katex.org/" target="_blank" rel="noopener"
+>KaTeX&lt;/a>.&lt;/p>
+&lt;p>&lt;strong>It&amp;rsquo;s not enabled by default side-wide,&lt;/strong> but you can enable it for individual posts by adding &lt;code>math: true&lt;/code> to the front matter. Or you can enable it side-wide by adding &lt;code>math = true&lt;/code> to the &lt;code>params.article&lt;/code> section in &lt;code>config.toml&lt;/code>.&lt;/p>
+&lt;h2 id="inline-math">Inline math
+&lt;/h2>&lt;p>This is an inline mathematical expression: $\varphi = \dfrac{1+\sqrt5}{2}= 1.6180339887…$&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-markdown" data-lang="markdown">&lt;span class="line">&lt;span class="cl">$\varphi = \dfrac{1+\sqrt5}{2}= 1.6180339887…$
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="block-math">Block math
+&lt;/h2>&lt;p>$$
+\varphi = 1+\frac{1} {1+\frac{1} {1+\frac{1} {1+\cdots} } }
+$$&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-markdown" data-lang="markdown">&lt;span class="line">&lt;span class="cl">$$
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> \varphi = 1+\frac{1} {1+\frac{1} {1+\frac{1} {1+\cdots} } }
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$$
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>$$
+f(x) = \int_{-\infty}^\infty\hat f(\xi),e^{2 \pi i \xi x},d\xi
+$$&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-markdown" data-lang="markdown">&lt;span class="line">&lt;span class="cl">$$
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> f(x) = \int_{-\infty}^\infty\hat f(\xi)\,e^{2 \pi i \xi x}\,d\xi
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$$
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div></description></item></channel></rss>
